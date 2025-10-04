@@ -19,7 +19,8 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-client = MongoClient('mongodb+srv://tharuntk143143:Tharu143%40@mobile.thomr5l.mongodb.net/')
+mongodb_uri = os.getenv('MONGODB_URI', 'mongodb+srv://tharuntk143143:Tharu143%40@mobile.thomr5l.mongodb.net/')
+client = MongoClient(mongodb_uri)
 db = client['retail']
 fs = GridFS(db)
 products_collection = db['products']
@@ -1208,4 +1209,4 @@ def get_yearly_report():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=False)
