@@ -1,12 +1,5 @@
 Flask
 Flask-Cors
-pymongo
-Werkzeug
-openpyxl
-gunicorn
-bson
-Flask
-Flask-Cors
 gunicorn
 openpyxl
 pymongo
