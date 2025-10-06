@@ -4,3 +4,5 @@ gunicorn
 openpyxl
 pymongo
 Werkzeug
+pandas
+APScheduler
