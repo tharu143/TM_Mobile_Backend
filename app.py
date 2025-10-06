@@ -50,14 +50,15 @@ logger = logging.getLogger(__name__)
 # MongoDB connection
 def connect_to_mongodb():
     try:
-        client = MongoClient('mongodb+srv://tharuntk143143:Tharu143%40@mobile.thomr5l.mongodb.net/')
+        mongodb_uri = os.getenv('MONGODB_URI', 'mongodb+srv://tharuntk143143:Tharu143%40@mobile.thomr5l.mongodb.net/')
+        client = MongoClient(mongodb_uri)
         db = client['retail']
         return db
     except Exception as e:
         logger.error(f"Failed to connect to MongoDB: {e}")
         return None
 db = connect_to_mongodb()
-if db:
+if db is not None:
     fs = GridFS(db)
     products_collection = db['products']
     mobiles_collection = db['mobiles']
@@ -1643,7 +1644,7 @@ def start_scheduler():
 # Main execution
 def shutdown_server():
     global db, fs
-    if db:
+    if db is not None:
         db.client.close()
         db = None
         fs = None
@@ -1751,7 +1752,7 @@ def delete_service(id):
 # Main execution with shutdown handler
 if __name__ == '__main__':
     try:
-        if db:
+        if db is not None:
             start_scheduler()
         logger.info(f"Serving static files from: {app.static_folder}")
         if getattr(sys, 'frozen', False):
